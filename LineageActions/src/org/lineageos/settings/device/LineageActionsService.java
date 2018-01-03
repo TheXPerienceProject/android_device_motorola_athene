@@ -77,12 +77,7 @@ public class LineageActionsService extends IntentService implements ScreenStateN
 
         // Other actions that are always enabled
         mUpdatedStateNotifiers.add(new CameraActivationSensor(lineageActionsSettings, mSensorHelper));
-        if (!Device.isSurnia()){
-            mUpdatedStateNotifiers.add(new ChopChopSensor(lineageActionsSettings, mSensorHelper));
-        } else {
-            Log.d(TAG, "No ChopChop");
-        }
-
+        mUpdatedStateNotifiers.add(new ChopChopSensor(lineageActionsSettings, mSensorHelper));
         mUpdatedStateNotifiers.add(new ProximitySilencer(lineageActionsSettings, context, mSensorHelper));
         mUpdatedStateNotifiers.add(new FlipToMute(lineageActionsSettings, context, mSensorHelper));
         mUpdatedStateNotifiers.add(new LiftToSilence(lineageActionsSettings, context, mSensorHelper));
@@ -98,9 +93,9 @@ public class LineageActionsService extends IntentService implements ScreenStateN
 
     @Override
     public void screenTurnedOn() {
-        if (!mWakeLock.isHeld()) {
-            mWakeLock.acquire();
-        }
+            if (!mWakeLock.isHeld()) {
+                mWakeLock.acquire();
+            }
         for (ScreenStateNotifier screenStateNotifier : mScreenStateNotifiers) {
             screenStateNotifier.screenTurnedOn();
         }
@@ -108,9 +103,9 @@ public class LineageActionsService extends IntentService implements ScreenStateN
 
     @Override
     public void screenTurnedOff() {
-        if (mWakeLock.isHeld()) {
-            mWakeLock.release();
-        }
+            if (mWakeLock.isHeld()) {
+                mWakeLock.release();
+            }
         for (ScreenStateNotifier screenStateNotifier : mScreenStateNotifiers) {
             screenStateNotifier.screenTurnedOff();
         }
